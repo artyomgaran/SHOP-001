@@ -1,0 +1,150 @@
+.controlPanel {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	/* width: 320px; */
+}
+
+.buttonsContainer {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+
+.login {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0 24px;
+	outline: none;
+	border: 2px solid #e74c3c;
+	border-radius: 8px;
+	height: 37px;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: normal;
+	text-decoration: none;
+	color: #e74c3c;
+	cursor: pointer;
+	background-color: #fff;
+}
+
+.login:hover {
+	transform: translateY(-2px);
+	transition: transform 0.3s ease;
+}
+
+.login:disabled {
+	background-color: #eee;
+	color: #444;
+	pointer-events: none;
+}
+
+.register {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0 24px;
+	outline: none;
+	border: none;
+	border-radius: 8px;
+	height: 37px;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: normal;
+	text-decoration: none;
+	color: #fff;
+	background-color: #e74c3c;
+	cursor: pointer;
+	user-select: none;
+	appearance: none;
+	touch-action: manipulation;
+}
+
+.register:hover {
+	transform: translateY(-2px);
+	transition: transform 0.3s ease;
+}
+.register:disabled {
+	background-color: #aed2bc;
+	color: #444;
+	pointer-events: none;
+}
+
+.logout {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0 24px;
+	outline: none;
+	border: 2px solid #e74c3c;
+	border-radius: 8px;
+	height: 37px;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: normal;
+	text-decoration: none;
+	color: #e74c3c;
+	cursor: pointer;
+	background-color: #fff;
+}
+
+.logout:hover {
+	transform: translateY(-2px);
+	transition: transform 0.3s ease;
+}
+
+.logout:disabled {
+	background-color: #eee;
+	color: #444;
+	pointer-events: none;
+}
+
+.admin {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0 24px;
+	outline: none;
+	border: none;
+	border-radius: 8px;
+	height: 37px;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: normal;
+	text-decoration: none;
+	color: #fff;
+	cursor: pointer;
+	background-color: #e74c3c;
+}
+
+.admin:hover {
+	transform: translateY(-2px);
+	transition: transform 0.3s ease;
+}
+
+.admin:disabled {
+	background-color: #eee;
+	color: #444;
+	pointer-events: none;
+}
+
+.person {
+	font-size: 23px;
+	padding: 0 0 6px 0;
+	cursor: pointer;
+}
+
+.person:hover {
+	transform: translateY(-2px);
+	transition: transform 0.3s ease;
+}
+
+.cart {
+	font-size: 17px;
+	background: #21506b;
+	padding: 11px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.cart:hover {
+	transform: translateY(-2px);
+	transition: transform 0.3s ease;
+}

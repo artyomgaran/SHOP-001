@@ -1,0 +1,91 @@
+{
+	"users": [
+		{
+			"id": "001",
+			"login": "anton",
+			"password": "qwerty123",
+			"registered_at": "2025-06-25",
+			"role_id": 0
+		},
+		{
+			"login": "ivan",
+			"password": "qwerty123",
+			"registered_at": "2025-07-06",
+			"role_id": 1,
+			"id": "_MZ9R12"
+		},
+		{
+			"login": "ivan1",
+			"password": "qwerty123",
+			"registered_at": "2025-07-06",
+			"role_id": 1,
+			"id": "ZhER8gB"
+		}
+	],
+	"roles": [
+		{
+			"id": 0,
+			"name": "Администратор"
+		},
+		{
+			"id": 1,
+			"name": "Клиент"
+		},
+		{
+			"id": 2,
+			"name": "Гость"
+		}
+	],
+	"items": [
+		{
+			"id": "AAC-SS25-TS-TM-CF",
+			"name": "Футболка MEAL CREAM",
+			"img_url": "https://optim.tildacdn.com/stor6331-3433-4863-b761-353137633761/-/format/webp/86743407.jpg.webp",
+			"structure": "Хлопок, Эластан 92/8",
+			"weight": "245ГР/М2",
+			"sizes": "S, M, L",
+			"print": "Вытравка",
+			"quantity": 150,
+			"price": "3 190RUB",
+			"category_id": 0
+		},
+		{
+			"id": "AAC-SS25-TS-RG-CF",
+			"name": "Футболка TWO-WIDE COFFEE",
+			"img_url": "https://optim.tildacdn.com/stor6262-6364-4635-b535-326164303162/-/format/webp/12121363.jpg.webp",
+			"structure": "Хлопок, Эластан 92/8",
+			"weight": "245ГР/М2",
+			"sizes": "S, M, L",
+			"print": "Вытравка",
+			"quantity": 150,
+			"price": "3 190RUB",
+			"category_id": 0
+		}
+	],
+	"categories_items": [
+		{
+			"id": 0,
+			"name": "Футболки"
+		},
+		{
+			"id": 1,
+			"name": "Худи"
+		},
+		{
+			"id": 2,
+			"name": "Штаны"
+		},
+		{
+			"id": 3,
+			"name": "Кепки"
+		}
+	],
+	"cart_items": [
+		{
+			"id": "",
+			"user_id": "",
+			"item_id": "",
+			"quantity": ""
+		}
+	]
+}
