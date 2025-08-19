@@ -1,8 +1,15 @@
 import { Link } from 'react-router-dom';
 import { ROLE } from '../../../constans';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUserLogin, selectUserRole, selectUserSession } from '../../../selectors';
-import { logout } from '../../../action';
+import {
+	selectUserLogin,
+	selectUserRole,
+	selectUserSession,
+	selectUserCart,
+} from '../../../selectors';
+import { logout, setUser } from '../../../action';
+import UserIcon from '../../../assets/icons/user.svg?react';
+import Cart from '../../../assets/icons/cart.svg';
 
 import styles from './control-panel.module.css';
 
@@ -11,6 +18,22 @@ export const ConrolPanel = () => {
 	const session = useSelector(selectUserSession);
 	const roleId = useSelector(selectUserRole);
 	const user = useSelector(selectUserLogin);
+	const cart = useSelector(selectUserCart);
+	const itemCount = cart.reduce((acc, item) => acc + item.amount, 0);
+
+	const handleLogout = () => {
+		dispatch(
+			setUser({
+				roleId: ROLE.GUEST,
+				session: null,
+				login: null,
+				id: null,
+				cart: [],
+			}),
+		);
+		localStorage.removeItem('userData');
+		dispatch(logout(session));
+	};
 
 	return (
 		<div className={styles.controlPanel}>
@@ -25,21 +48,24 @@ export const ConrolPanel = () => {
 				</div>
 			) : (
 				<>
-					<button
-						className={styles.logout}
-						onClick={() => dispatch(logout(session))}
-					>
-						Выйти
+					<button className={styles.logout} onClick={handleLogout}>
+						ВЫЙТИ
 					</button>
 					<Link to="/admin_panel">
 						<button className={styles.admin}> Админ Панель</button>
 					</Link>
-					<div className={styles.person} to="/admin_panel">
-						{user} 👤
-					</div>
+					<UserIcon className={styles.person} to="/admin_panel" />
+					{user}
 				</>
 			)}
-			<div className={styles.cart}>🛒</div>
+			<div className={styles.cart}>
+				<Link to="/cart">
+					<img src={Cart} alt="Корзина" />
+					{itemCount > 0 && (
+						<span className={styles.cartCount}>{itemCount}</span>
+					)}
+				</Link>
+			</div>
 		</div>
 	);
 };

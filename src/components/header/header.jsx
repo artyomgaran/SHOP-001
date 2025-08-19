@@ -1,8 +1,25 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ConrolPanel } from './components/control-panel';
+import Search from '../../assets/icons/search.svg';
+import { selectSearchQuery } from '../../selectors';
+import { setSearchQuery } from '../../action';
 import styles from './header.module.css';
 
 export const Header = () => {
+	const dispatch = useDispatch();
+	const searchQuery = useSelector(selectSearchQuery);
+	const [localQuery, setLocalQuery] = useState(searchQuery);
+
+	useEffect(() => {
+		const handler = setTimeout(() => {
+			dispatch(setSearchQuery(localQuery));
+		}, 1000);
+
+		return () => clearTimeout(handler);
+	}, [localQuery, dispatch]);
+
 	return (
 		<header className={styles.header}>
 			<div className={styles.headerContent}>
@@ -11,11 +28,13 @@ export const Header = () => {
 				</Link>
 				<div className={styles.searchBar}>
 					<input
+						name="search"
 						className={styles.input}
 						type="text"
 						placeholder="Поиск товаров..."
+						onChange={(e) => setLocalQuery(e.target.value)}
 					/>
-					<div className={styles.searhIcon}>🔍</div>
+					<img src={Search} alt="Поиск" className={styles.searhIcon} />
 				</div>
 				<ConrolPanel />
 			</div>

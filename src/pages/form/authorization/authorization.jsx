@@ -57,6 +57,8 @@ export const Authorization = () => {
 			}
 
 			dispatch(setUser(res));
+
+			localStorage.setItem('userData', JSON.stringify(res));
 		});
 	};
 
@@ -74,9 +76,10 @@ export const Authorization = () => {
 
 	return (
 		<div className={styles.authorization}>
-			<h2>Авторизация</h2>
+			<h2 className={styles.h2}>Авторизация</h2>
 			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 				<input
+					className={styles.input}
 					type="text"
 					placeholder="Логин"
 					{...register('login', {
@@ -84,6 +87,7 @@ export const Authorization = () => {
 					})}
 				/>
 				<input
+					className={styles.input}
 					type="password"
 					placeholder="Пароль"
 					{...register('password', {

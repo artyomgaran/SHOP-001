@@ -4,3 +4,6 @@ export * from './get-items';
 export * from './get-user';
 export * from './get-users';
 export * from './get-categories';
+export * from './add-item';
+export * from './delete-item';
+export * from './change-item';

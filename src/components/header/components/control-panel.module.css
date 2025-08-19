@@ -1,13 +1,14 @@
 .controlPanel {
 	display: flex;
-	justify-content: space-between;
+	flex-wrap: wrap;
 	align-items: center;
-	gap: 1rem;
-	/* width: 320px; */
+	justify-content: flex-end;
+	gap: 12px;
 }
 
 .buttonsContainer {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 1rem;
 	align-items: center;
 }
@@ -27,11 +28,11 @@
 	color: #e74c3c;
 	cursor: pointer;
 	background-color: #fff;
+	transition: transform 0.2s;
 }
 
 .login:hover {
-	transform: translateY(-2px);
-	transition: transform 0.3s ease;
+	transform: scale(1.1);
 }
 
 .login:disabled {
@@ -58,11 +59,11 @@
 	user-select: none;
 	appearance: none;
 	touch-action: manipulation;
+	transition: transform 0.2s;
 }
 
 .register:hover {
-	transform: translateY(-2px);
-	transition: transform 0.3s ease;
+	transform: scale(1.1);
 }
 .register:disabled {
 	background-color: #aed2bc;
@@ -85,11 +86,11 @@
 	color: #e74c3c;
 	cursor: pointer;
 	background-color: #fff;
+	transition: transform 0.2s;
 }
 
 .logout:hover {
-	transform: translateY(-2px);
-	transition: transform 0.3s ease;
+	transform: scale(1.1);
 }
 
 .logout:disabled {
@@ -113,11 +114,11 @@
 	color: #fff;
 	cursor: pointer;
 	background-color: #e74c3c;
+	transition: transform 0.2s;
 }
 
 .admin:hover {
-	transform: translateY(-2px);
-	transition: transform 0.3s ease;
+	transform: scale(1.1);
 }
 
 .admin:disabled {
@@ -127,24 +128,58 @@
 }
 
 .person {
-	font-size: 23px;
-	padding: 0 0 6px 0;
+	width: 23px;
+	height: 23px;
 	cursor: pointer;
+	transition: transform 0.2s;
 }
 
 .person:hover {
-	transform: translateY(-2px);
-	transition: transform 0.3s ease;
+	transform: scale(1.1);
 }
 
 .cart {
-	font-size: 17px;
-	background: #21506b;
-	padding: 11px;
-	border-radius: 50%;
+	position: relative;
 	cursor: pointer;
+	transition: transform 0.2s;
 }
+
+.cart img {
+	width: 40px;
+	height: 40px;
+}
+
 .cart:hover {
-	transform: translateY(-2px);
-	transition: transform 0.3s ease;
+	transform: scale(1.1);
+}
+
+.cartCount {
+	position: absolute;
+	top: 8px;
+	right: 2px;
+	color: #fff;
+	font-weight: 800;
+	background-color: #e74c3c;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	font-size: 13px;
+	text-align: center;
+	border-radius: 50%;
+	padding: 0;
+}
+
+@media (max-width: 796px) {
+	.controlPanel {
+		width: 100%;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+
+	.login,
+	.register,
+	.logout,
+	.admin {
+		width: 100%;
+	}
 }

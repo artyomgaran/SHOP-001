@@ -6,35 +6,81 @@
 
 .adminPanelBody {
 	display: flex;
-	gap: 40px; /* расстояние между блоками */
+	gap: 15px; /* расстояние между блоками */
 	align-items: flex-start; /* выравнивание по верху */
 }
 
-.addItemBlock {
+.addItemWrapper {
 	display: flex;
-	justify-content: space-between;
-	width: 300px;
-	background-color: #fff;
-	padding: 20px;
-	box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+	width: 370px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.expanded {
+	margin: auto;
+	width: 100%;
+	max-width: 800px;
+	cursor: default;
+}
+
+/* Сама форма */
+.addItemForm {
+	display: flex;
 	flex-direction: column;
 	gap: 10px;
-	align-items: center;
+	background-color: #fff;
+	padding: 25px;
+	box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
 	border-radius: 8px;
+	align-items: center;
+	width: 100%;
 }
+
+.backButton {
+	margin-top: 10px;
+	background-color: #ccc;
+	color: #333;
+	padding: 8px 16px;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.backButton:hover {
+	background-color: #bbb;
+}
+
 .h2 {
 	margin: -10px 0 5px 0;
 }
 
-.input {
-	width: 280px;
+.inputAdd {
+	padding: 10px;
+	width: 100%;
 	height: 20px;
+	border: 2px solid #ddd;
+	border-radius: 8px;
+	font-size: 16px;
+	transition: all 0.3s ease;
 }
-select {
-	width: 308px;
-	height: 43px;
-	padding: 10px 12px;
-	border: 2px solid #ccc;
+
+.inputAdd:focus {
+	outline: none;
+	border-color: #e74c3c;
+	box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+.errorsFormMessage {
+	color: #e74c3c;
+	font-size: 14px;
+	margin-top: -5px;
+	margin-bottom: 10px;
+}
+.select {
+	width: 96%;
+	height: 38px;
+	border: 2px solid #c0392b;
 	border-radius: 8px;
 	font-size: 16px;
 	transition:
@@ -43,12 +89,12 @@ select {
 	outline: none;
 }
 
-select:focus {
+.select:focus {
 	border-color: #e74c3c;
 	box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
 }
 
-select::placeholder {
+.select::placeholder {
 	color: #aaa;
 }
 
@@ -91,12 +137,11 @@ select::placeholder {
 .listHeader,
 .itemRow {
 	display: grid;
-	/* grid-template-columns: 1.2fr 2fr 1.6fr 1.5fr 1.1fr 1.5fr 1.1fr 2fr 1.1fr 1fr 1fr; 11 колонок? проверь соответствие */
 	grid-template-columns: repeat(11, 4fr);
 	align-items: center;
 	padding: 12px 16px;
 	border-radius: 6px;
-	min-width: 1000px; /* Чтобы избежать переноса строк */
+	min-width: 1000px;
 }
 
 .listHeader {
@@ -104,12 +149,40 @@ select::placeholder {
 	font-weight: 600;
 	color: #444;
 	border: 1px solid #ddd;
+	font-size: 15px;
+}
+
+.listCategories {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 10px;
+	align-items: center;
+	width: 100%;
+}
+.listCategories button {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0 24px;
+	outline: none;
+	border: 2px solid #e74c3c;
+	border-radius: 8px;
+	height: 37px;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: normal;
+	text-decoration: none;
+	color: #e74c3c;
+	cursor: pointer;
+	background-color: #fff;
 }
 
 .itemRow {
 	background-color: #fafafa;
 	border: 1px solid #eee;
 	transition: background 0.2s;
+	overflow-wrap: break-word;
+	word-break: break-all;
+	font-size: 13px;
 }
 
 .itemRow:hover {
@@ -124,8 +197,11 @@ select::placeholder {
 }
 
 .buttonContainer {
+	margin: 5px;
 	display: flex;
 	gap: 8px;
+	justify-content: space-evenly;
+	align-items: center;
 }
 
 .buttonContainer button {

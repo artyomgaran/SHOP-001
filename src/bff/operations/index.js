@@ -3,3 +3,7 @@ export * from './logout';
 export * from './register';
 export * from './fetch-categories';
 export * from './fetch-items';
+export * from './create-Item';
+export * from './remove-item';
+export * from './edit-item';
+export * from './fetch-item';

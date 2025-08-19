@@ -1,10 +1,37 @@
 /* eslint-disable react/prop-types */
+import { useSelector } from 'react-redux';
+
 import { ItemContainer } from './components/item-container';
+import { selectCategoryId } from '../../../../selectors';
 
 import styles from '../../admin-panel.module.css';
-export const ItemsBlock = ({ items }) => {
+import { setSelectedCategory } from '../../../../action';
+
+export const ItemsBlock = ({ items, onEdit, categories, dispatch }) => {
+	const selectedCategoryId = useSelector(selectCategoryId);
+
+	const filteredItems =
+		selectedCategoryId != null
+			? items.filter((item) => item.categoryId === selectedCategoryId)
+			: items;
+
+	const handleCategoryClick = (id) => {
+		dispatch(setSelectedCategory(id));
+	};
+
 	return (
 		<div className={styles.itemListBlock}>
+			<div className={styles.listCategories}>
+				<button onClick={() => handleCategoryClick(null)}>Все товары</button>
+				{categories.map((category) => (
+					<button
+						key={category.id}
+						onClick={() => handleCategoryClick(category.id)}
+					>
+						{category.name}
+					</button>
+				))}
+			</div>
 			<div className={styles.listHeader}>
 				<span>ID</span>
 				<span>Название</span>
@@ -18,23 +45,24 @@ export const ItemsBlock = ({ items }) => {
 				<span>Принт</span>
 				<span>Действия</span>
 			</div>
-			{items.map(
+			{filteredItems.map(
 				({
-					id: itemId,
-					name: itemName,
-					img_url: imgUrl,
+					id,
+					name,
+					imgUrl,
 					structure,
 					weight,
 					sizes,
 					print,
 					quantity,
 					price,
-					category_id: categoryId,
+					categoryId,
 				}) => (
 					<ItemContainer
-						key={itemId}
-						id={itemId}
-						name={itemName}
+						onEdit={onEdit}
+						key={id}
+						id={id}
+						name={name}
 						imgUrl={imgUrl}
 						structure={structure}
 						weight={weight}

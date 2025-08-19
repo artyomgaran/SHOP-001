@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { server } from '../../../bff';
@@ -75,16 +75,15 @@ export const Registration = () => {
 	const roleId = useSelector(selectUserRole);
 
 	if (roleId !== ROLE.GUEST) {
-		console.log('иф');
-
 		return <Navigate to="/" />;
 	}
 
 	return (
 		<div className={styles.authorization}>
-			<h2>Регистрация</h2>
+			<h2 className={styles.h2}>Регистрация</h2>
 			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 				<input
+					className={styles.input}
 					type="text"
 					placeholder="Логин"
 					{...register('login', {
@@ -92,6 +91,7 @@ export const Registration = () => {
 					})}
 				/>
 				<input
+					className={styles.input}
 					type="password"
 					placeholder="Пароль"
 					{...register('password', {
@@ -99,6 +99,7 @@ export const Registration = () => {
 					})}
 				/>
 				<input
+					className={styles.input}
 					type="password"
 					placeholder="Повтор пароля"
 					{...register('passcheck', {
