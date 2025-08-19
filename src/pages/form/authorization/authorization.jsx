@@ -7,10 +7,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { server } from '../../../bff';
 import { setUser } from '../../../action';
 import { selectUserRole } from '../../../selectors';
-import { ROLE } from '../../../constans';
+import { ROLE } from '../../../constants';
 import { useResetForm } from '../../../hooks';
+import { saveUserToStorage } from '../../../utils';
 
 import styles from '../form.module.css';
+import { sessions } from '../../../bff/sessions';
 
 export const Authorization = () => {
 	const authFormSchema = yup.object().shape({
@@ -56,9 +58,11 @@ export const Authorization = () => {
 				return;
 			}
 
-			dispatch(setUser(res));
+			// создаём сессию и получаем хэш
+			const sessionHash = sessions.create(res); // res содержит объект пользователя с roleId
+			dispatch(setUser({ ...res, session: sessionHash }));
 
-			localStorage.setItem('userData', JSON.stringify(res));
+			saveUserToStorage({ ...res, session: sessionHash });
 		});
 	};
 

@@ -12,7 +12,7 @@ import {
 	selectFilter,
 	selectSearchQuery,
 } from '../../selectors';
-import { useServerRequest } from '../../hooks';
+import { useFilteredItems, useServerRequest } from '../../hooks';
 import {
 	setItems,
 	setCategoris,
@@ -48,22 +48,12 @@ export const MainPage = () => {
 		loadCartFromStorage(dispatch);
 	}, [dispatch, requestServer]);
 
-	let filteredItems =
-		selectedCategoryId != null
-			? items.filter((item) => item.categoryId === selectedCategoryId)
-			: [...items];
-
-	if (searchQuery) {
-		filteredItems = filteredItems.filter((item) =>
-			item.name.toLowerCase().includes(searchQuery.toLowerCase()),
-		);
-	}
-
-	if (selectedFilter === 'Подешевле') {
-		filteredItems.sort((a, b) => a.price - b.price);
-	} else if (selectedFilter === 'Подороже') {
-		filteredItems.sort((a, b) => b.price - a.price);
-	}
+	const filteredItems = useFilteredItems(
+		items,
+		selectedCategoryId,
+		selectedFilter,
+		searchQuery,
+	);
 
 	const handleCategoryClick = (id) => {
 		dispatch(setSelectedCategory(id));
@@ -96,8 +86,9 @@ export const MainPage = () => {
 								key={item.id}
 								item={item}
 								navigate={navigate}
-								handleAddToCart={handleAddToCart}
-								dispatch={dispatch}
+								onAddToCart={(item, size) =>
+									handleAddToCart(dispatch, item, size)
+								}
 							/>
 						))}
 					</div>

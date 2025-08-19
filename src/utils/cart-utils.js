@@ -25,7 +25,7 @@ export const handleAddToCart = (dispatch, product, selectedSize) => {
 	}
 
 	localStorage.setItem('cart', JSON.stringify(storedCart));
-	dispatch(addToCart(item)); // В редаксе всё равно будет проверка
+	dispatch(addToCart(item)); // В редаксе будет проверка
 };
 
 export const handleDeleteFromCart = (dispatch, itemToDelete) => {
@@ -53,7 +53,6 @@ export const handleCreateOrder = (dispatch, cart, user) => {
 		throw new Error('Авторизуйтесь для оформления заказа');
 	}
 
-	//TODO запрос на сервер
 	clearCartStorage();
 	dispatch(removeCart());
 };

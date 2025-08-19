@@ -5,7 +5,7 @@ import { useServerRequest } from '../../hooks';
 import { setItems, setCategoris } from '../../action/';
 import { selectItems, selectCategories, selectUserRole } from '../../selectors';
 import { Content } from '../../components/';
-import { ROLE } from '../../constans';
+import { ROLE } from '../../constants';
 
 import styles from './admin-panel.module.css';
 
@@ -20,8 +20,6 @@ export const AdminPanel = () => {
 	const [errorMessage, setErrorMessage] = useState();
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [editableItem, setEditableItem] = useState(null);
-
-	console.log('до useEffect', roleId);
 
 	useEffect(() => {
 		if (roleId !== ROLE.ADMIN) {
@@ -39,7 +37,6 @@ export const AdminPanel = () => {
 			},
 		);
 	}, [requestServer, dispatch, roleId]);
-	console.log('ПОСЛЕ useEffect', roleId);
 
 	return (
 		<div className={styles.adminPanel}>

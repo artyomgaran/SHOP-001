@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { server } from '../../../bff';
 import { setUser } from '../../../action';
 import { selectUserRole } from '../../../selectors';
-import { ROLE } from '../../../constans';
+import { ROLE } from '../../../constants';
 import { useResetForm } from '../../../hooks';
 
 import styles from '../form.module.css';

@@ -1,5 +1,5 @@
 import { deleteItem } from '../api';
-import { ROLE } from '../../constans';
+import { ROLE } from '../../constants';
 import { sessions } from '../sessions';
 
 export const removeItem = async (itemId, userSession) => {

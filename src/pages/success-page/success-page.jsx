@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { selectUserLogin, selectUserRole } from '../../selectors';
-import { ROLE } from '../../constans';
+import { ROLE } from '../../constants';
 import { useState } from 'react';
 import { Content } from '../../components';
 

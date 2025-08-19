@@ -1,5 +1,5 @@
 import { ACTION_TYPE } from '../action';
-import { ROLE } from '../constans';
+import { ROLE } from '../constants';
 
 const savedUser = (() => {
 	try {

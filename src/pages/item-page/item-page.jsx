@@ -16,8 +16,9 @@ export const ItemPage = () => {
 	const [item, setItem] = useState();
 	const cart = useSelector(selectUserCart);
 	const [countProduct, setCountProduct] = useState(null);
-	const [selectedSize, setSelectedSize] = useState('S');
+	const [selectedSize, setSelectedSize] = useState('');
 
+	// Загрузка товара
 	useEffect(() => {
 		requestServer('fetchItem', id).then((ItemRes) => {
 			if (ItemRes.error) {
@@ -25,10 +26,19 @@ export const ItemPage = () => {
 				return;
 			}
 			setItem(ItemRes.res);
+
 			loadCartFromStorage(dispatch);
 		});
 	}, [requestServer, id, dispatch]);
 
+	// Установка первого доступного размера после загрузки товара
+	useEffect(() => {
+		if (item && item.sizes.length > 0) {
+			setSelectedSize(item.sizes[0]);
+		}
+	}, [item]);
+
+	// Подсчет количества выбранного товара в корзине
 	useEffect(() => {
 		if (!item) return;
 
@@ -49,8 +59,6 @@ export const ItemPage = () => {
 	if (!item) {
 		return <div>Загрузка...</div>;
 	}
-	console.log('item', item);
-	console.log(selectedSize);
 
 	return (
 		<div className={styles.item}>

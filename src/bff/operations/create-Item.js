@@ -1,5 +1,5 @@
 import { addItem } from '../api';
-import { ROLE } from '../../constans';
+import { ROLE } from '../../constants';
 import { sessions } from '../sessions';
 
 export const createItem = async (newItem, userSession) => {

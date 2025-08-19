@@ -1,5 +1,5 @@
 import { changeItem } from '../api';
-import { ROLE } from '../../constans';
+import { ROLE } from '../../constants';
 import { sessions } from '../sessions';
 
 export const editItem = async (id, item, userSession) => {

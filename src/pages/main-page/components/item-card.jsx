@@ -2,7 +2,7 @@
 import styles from '../main-page.module.css';
 import { useState } from 'react';
 
-export const ItemCard = ({ item, navigate, handleAddToCart, dispatch }) => {
+export const ItemCard = ({ item, navigate, onAddToCart }) => {
 	const [selectedSize, setSelectedSize] = useState(item.sizes[0]);
 
 	return (
@@ -14,6 +14,7 @@ export const ItemCard = ({ item, navigate, handleAddToCart, dispatch }) => {
 				<p>Плотность ткани: {item.weight} г/м²</p>
 				<h4>{item.price} RUB</h4>
 			</div>
+
 			<select
 				className={styles.select}
 				value={selectedSize}
@@ -21,16 +22,15 @@ export const ItemCard = ({ item, navigate, handleAddToCart, dispatch }) => {
 			>
 				{item.sizes.map((size) => (
 					<option key={size} value={size}>
-						{' '}
 						{size}
 					</option>
 				))}
 			</select>
+
 			<button
 				className={styles.button}
-				onClick={() => handleAddToCart(dispatch, item, selectedSize)}
+				onClick={() => onAddToCart(item, selectedSize)}
 			>
-				{' '}
 				В корзину
 			</button>
 		</div>

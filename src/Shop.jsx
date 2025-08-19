@@ -17,18 +17,14 @@ import styles from './shop.module.css';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUser } from './action';
+import { getUserFromStorage } from './utils';
 
 export const Shop = () => {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		const savedUser = localStorage.getItem('userData');
+		const savedUser = getUserFromStorage();
 		if (savedUser) {
-			try {
-				dispatch(setUser(JSON.parse(savedUser)));
-			} catch (e) {
-				console.error('Ошибка чтения userData из localStorage:', e);
-				localStorage.removeItem('userData');
-			}
+			dispatch(setUser(savedUser));
 		}
 	}, [dispatch]);
 	return (

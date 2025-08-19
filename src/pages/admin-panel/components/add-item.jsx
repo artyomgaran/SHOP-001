@@ -65,6 +65,11 @@ export const AddItem = ({
 
 	const userSession = useSelector(selectUserSession);
 
+	const handleBack = () => {
+		reset(); // очищаем форму
+		onCollapse(); // сворачиваем форму и сбрасываем editableItem
+	};
+
 	const onSubmit = (formData) => {
 		const preparedData = {
 			...formData,
@@ -89,8 +94,8 @@ export const AddItem = ({
 
 					dispatch(editItem(normalized));
 					alert('Товар успешно изменён');
-					reset();
 					onCollapse();
+					reset();
 				});
 		} else {
 			// ДОБАВЛЕНИЕ
@@ -230,9 +235,9 @@ export const AddItem = ({
 					<button
 						type="button"
 						className={styles.backButton}
-						onClick={onCollapse}
+						onClick={handleBack}
 					>
-						{/* TODO очистить форму */}← Назад
+						← Назад
 					</button>
 				)}
 			</form>
