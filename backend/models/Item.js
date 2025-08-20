@@ -34,14 +34,11 @@ const ItemSchema = new mongoose.Schema(
     img_url: {
       type: String,
       required: true,
-      validate: {
-        validator: isURL,
-        message: "Image URL is not valid",
-      },
+      validate: [validator.isURL, "Image URL is not valid"],
     },
-    category_id: {
+    category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
+      ref: "categories",
       required: true,
     },
   },

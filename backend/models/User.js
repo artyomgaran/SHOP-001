@@ -3,23 +3,15 @@ const roles = require("../constants/roles");
 
 const UserSchema = new mongoose.Schema(
   {
-    login: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    role: {
-      type: Number,
-      default: roles.CLIENT, // Default role is CLIENT
+    login: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role_id: { type: Number, default: roles.CLIENT },
+    cart_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Cart",
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 const User = mongoose.model("User", UserSchema);
