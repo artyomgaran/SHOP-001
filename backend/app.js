@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
@@ -25,12 +26,8 @@ app.use((req, res) => {
   res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"));
 });
 
-mongoose
-  .connect(
-    "mongodb+srv://artyomgaran:Qweqwe123@cluster0.3zsgjur.mongodb.net/shop?retryWrites=true&w=majority&appName=Cluster0"
-  )
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
-    });
+mongoose.connect(process.env.DB_CONNECTION_STRING).then(() => {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
   });
+});
