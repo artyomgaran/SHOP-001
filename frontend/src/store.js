@@ -4,7 +4,6 @@ import {
 	appReducer,
 	userReducer,
 	itemsReducer,
-	itemReducer,
 	categoriesReducer,
 	cartReducer,
 } from './reducers';
@@ -13,7 +12,6 @@ const reducer = combineReducers({
 	app: appReducer,
 	user: userReducer,
 	items: itemsReducer,
-	item: itemReducer,
 	categories: categoriesReducer,
 	cart: cartReducer,
 });

@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { handleAddToCart, loadCartFromStorage } from '../../utils';
 import { Content } from '../../components';
 import { CategoriesFilter, ItemCard } from './components';
-
+import {
+	setItems,
+	setCategoris,
+	setSelectedFilter,
+	setSelectedCategory,
+} from '../../action';
 import {
 	selectCategories,
 	selectItems,
@@ -12,42 +16,52 @@ import {
 	selectFilter,
 	selectSearchQuery,
 } from '../../selectors';
-import { useFilteredItems, useServerRequest } from '../../hooks';
-import {
-	setItems,
-	setCategoris,
-	setSelectedCategory,
-	setSelectedFilter,
-} from '../../action';
-
+import { useFilteredItems } from '../../hooks';
+import { request, handleAddToCart } from '../../utils';
 import styles from './main-page.module.css';
 
 export const MainPage = () => {
-	const requestServer = useServerRequest();
-	const items = useSelector(selectItems);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const items = useSelector(selectItems);
 	const categories = useSelector(selectCategories);
-	const [errorMessage, setErrorMessage] = useState();
 	const selectedCategoryId = useSelector(selectCategoryId);
 	const selectedFilter = useSelector(selectFilter);
 	const searchQuery = useSelector(selectSearchQuery);
+	const [errorMessage, setErrorMessage] = useState('');
+	const [serverError, setServerError] = useState(null);
 
+	// Получение товаров и категорий с сервера
 	useEffect(() => {
-		Promise.all([requestServer('fetchItems'), requestServer('fetchCategories')]).then(
-			([itemsRes, categoriesRes]) => {
-				if (itemsRes.error || categoriesRes.error) {
-					setErrorMessage(itemsRes.error || categoriesRes.error);
-					return;
-				}
-				dispatch(setCategoris(categoriesRes.res));
-				dispatch(setItems(itemsRes.res));
-			},
-		);
+		const fetchItemsAndCategories = async () => {
+			try {
+				// items
+				request('/api/items', 'GET').then(({ error, data }) => {
+					if (error) {
+						setServerError(`Ошибка запроса. ${error}`);
+						return;
+					}
 
-		loadCartFromStorage(dispatch);
-	}, [dispatch, requestServer]);
+					dispatch(setItems(data));
+				});
 
+				//categories
+				request('/api/categories', 'GET').then(({ error, data }) => {
+					if (error) {
+						setServerError(`Ошибка запроса. ${error}`);
+						return;
+					}
+
+					dispatch(setCategoris(data));
+				});
+			} catch (err) {
+				setErrorMessage(err.message);
+			}
+		};
+		fetchItemsAndCategories();
+	}, [dispatch]);
+
+	// Фильтруем товары по категории, фильтру и поиску
 	const filteredItems = useFilteredItems(
 		items,
 		selectedCategoryId,
@@ -63,12 +77,12 @@ export const MainPage = () => {
 		dispatch(setSelectedFilter(e.target.value));
 	};
 
-	if (!items) {
-		return <div>Загрузка...</div>;
-	}
+	if (items.length === 0) return <div className={styles.loader}></div>;
+
+	const error = errorMessage || serverError;
 
 	return (
-		<Content error={errorMessage}>
+		<Content error={error}>
 			<div className={styles.items}>
 				<CategoriesFilter
 					categories={categories}

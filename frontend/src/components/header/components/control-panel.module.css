@@ -172,14 +172,18 @@
 @media (max-width: 796px) {
 	.controlPanel {
 		width: 100%;
-		justify-content: space-between;
+		justify-content: start;
 		flex-wrap: wrap;
 	}
 
 	.login,
 	.register,
-	.logout,
 	.admin {
 		width: 100%;
+	}
+
+	.cart {
+		position: absolute;
+		right: 16px;
 	}
 }

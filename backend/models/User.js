@@ -6,10 +6,12 @@ const UserSchema = new mongoose.Schema(
     login: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role_id: { type: Number, default: roles.CLIENT },
-    cart_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Cart",
-    },
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -12,7 +12,7 @@ export const ItemsBlock = ({ items, onEdit, categories, dispatch }) => {
 
 	const filteredItems =
 		selectedCategoryId != null
-			? items.filter((item) => item.categoryId === selectedCategoryId)
+			? items.filter((item) => item.category.id === selectedCategoryId)
 			: items;
 
 	const handleCategoryClick = (id) => {
@@ -56,7 +56,7 @@ export const ItemsBlock = ({ items, onEdit, categories, dispatch }) => {
 					print,
 					quantity,
 					price,
-					categoryId,
+					category,
 				}) => (
 					<ItemContainer
 						onEdit={onEdit}
@@ -70,7 +70,7 @@ export const ItemsBlock = ({ items, onEdit, categories, dispatch }) => {
 						print={print}
 						quantity={quantity}
 						price={price}
-						categoryId={categoryId}
+						category={category.name}
 					/>
 				),
 			)}

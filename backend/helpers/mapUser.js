@@ -1,25 +1,15 @@
-const Cart = require("../models/Cart");
+const Order = require("../models/Order");
 
 module.exports = async function mapUser(user) {
   if (!user) return null;
 
-  const cart = await Cart.findById(user.cart_id).populate("items.item_id");
+  // Находим все заказы пользователя
+  const orders = await Order.find({ user_id: user._id });
 
   return {
     id: user._id,
     login: user.login,
-    role_id: user.role_id,
-    cart: cart
-      ? {
-          id: cart._id,
-          items: cart.items.map((i) => ({
-            item_id: i.item_id._id,
-            quantity: i.quantity,
-            size: i.size,
-            price: i.price,
-          })),
-          total_price: cart.total_price,
-        }
-      : null,
+    roleId: user.role_id,
+    orders: orders || [],
   };
 };

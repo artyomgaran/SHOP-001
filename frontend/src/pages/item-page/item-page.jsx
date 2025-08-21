@@ -1,35 +1,34 @@
 import { useEffect, useState } from 'react';
-import { useServerRequest } from '../../hooks';
 import { useParams } from 'react-router-dom';
-import { selectUserCart } from '../../selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleAddToCart, handleDeleteFromCart, loadCartFromStorage } from '../../utils';
+import { selectCart } from '../../selectors';
+import { request } from '../../utils';
 
 import MinusIcon from '../../assets/icons/minus.svg?react';
 import PlusIcon from '../../assets/icons/plus.svg?react';
 import styles from './item.module.css';
 
 export const ItemPage = () => {
-	const requestServer = useServerRequest();
 	const dispatch = useDispatch();
 	const { id } = useParams();
 	const [item, setItem] = useState();
-	const cart = useSelector(selectUserCart);
+	const cart = useSelector(selectCart);
 	const [countProduct, setCountProduct] = useState(null);
 	const [selectedSize, setSelectedSize] = useState('');
 
 	// Загрузка товара
 	useEffect(() => {
-		requestServer('fetchItem', id).then((ItemRes) => {
+		request(`/api/items/${id}`, 'GET').then((ItemRes) => {
 			if (ItemRes.error) {
 				console.error(ItemRes.error);
 				return;
 			}
-			setItem(ItemRes.res);
+			setItem(ItemRes.data);
 
 			loadCartFromStorage(dispatch);
 		});
-	}, [requestServer, id, dispatch]);
+	}, [id, dispatch]);
 
 	// Установка первого доступного размера после загрузки товара
 	useEffect(() => {
@@ -57,7 +56,7 @@ export const ItemPage = () => {
 	};
 
 	if (!item) {
-		return <div>Загрузка...</div>;
+		return <div className={styles.loader}></div>;
 	}
 
 	return (

@@ -11,7 +11,7 @@ export const useFilteredItems = (
 
 		// фильтр по категории
 		if (selectedCategoryId != null) {
-			filtered = filtered.filter((item) => item.categoryId === selectedCategoryId);
+			filtered = filtered.filter((item) => item.category.id === selectedCategoryId);
 		}
 
 		// поиск по названию

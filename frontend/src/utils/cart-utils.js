@@ -1,4 +1,5 @@
 import { addToCart, deleteCartItem, removeCart, setCart } from '../action';
+import { request } from '../utils';
 
 // Добавление товара с проверкой на дубли (по id и size)
 export const handleAddToCart = (dispatch, product, selectedSize) => {
@@ -47,14 +48,33 @@ export const handleDeleteFromCart = (dispatch, itemToDelete) => {
 
 	dispatch(deleteCartItem(itemToDelete));
 };
-
-export const handleCreateOrder = (dispatch, cart, user) => {
-	if (!user) {
+// создание заказа и отправка на сервер
+export const handleCreateOrder = async (dispatch, cart, amount, userId, userLogin) => {
+	if (!userLogin) {
 		throw new Error('Авторизуйтесь для оформления заказа');
 	}
 
-	clearCartStorage();
-	dispatch(removeCart());
+	const data = {
+		user_id: userId,
+		items: cart,
+		total_price: amount,
+	};
+
+	try {
+		const { error, data: order } = await request('/api/orders', 'POST', data);
+
+		if (error) {
+			throw new Error(`Ошибка запроса. ${error}`);
+		}
+
+		clearCartStorage();
+		dispatch(removeCart());
+
+		return order;
+	} catch (err) {
+		console.error('Ошибка при создании заказа:', err);
+		throw err;
+	}
 };
 
 // Загрузка корзины из localStorage в redux

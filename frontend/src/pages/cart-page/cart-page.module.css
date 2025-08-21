@@ -111,3 +111,40 @@
 .empty h4 {
 	text-decoration: underline;
 }
+
+@media (max-width: 796px) {
+	.img {
+		width: 75px;
+	}
+	.item {
+		box-sizing: border-box;
+		display: flex;
+		background-color: #fff;
+		border: 2px solid #ddd;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		padding-left: 2px;
+		flex-direction: row;
+	}
+
+	.control {
+		width: 67px;
+	}
+	.control span {
+		font-size: 14px;
+	}
+	.info span {
+		font-size: 11px;
+	}
+	.icon {
+		width: 17px;
+		height: 17px;
+		margin: 2px;
+		border-radius: 50%;
+	}
+
+	.price {
+		width: 60px;
+		font-size: 15px;
+	}
+}

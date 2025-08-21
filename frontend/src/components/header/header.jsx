@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { ConrolPanel } from './components/control-panel';
+import { ControlPanel } from './components/control-panel';
 import Search from '../../assets/icons/search.svg';
 import { selectSearchQuery } from '../../selectors';
 import { setSearchQuery } from '../../action';
@@ -36,7 +36,7 @@ export const Header = () => {
 					/>
 					<img src={Search} alt="Поиск" className={styles.searhIcon} />
 				</div>
-				<ConrolPanel />
+				<ControlPanel />
 			</div>
 		</header>
 	);

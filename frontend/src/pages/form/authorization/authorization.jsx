@@ -4,15 +4,13 @@ import { useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { server } from '../../../bff';
 import { setUser } from '../../../action';
 import { selectUserRole } from '../../../selectors';
 import { ROLE } from '../../../constants';
 import { useResetForm } from '../../../hooks';
-import { saveUserToStorage } from '../../../utils';
+import { request, saveUserToStorage } from '../../../utils';
 
 import styles from '../form.module.css';
-import { sessions } from '../../../bff/sessions';
 
 export const Authorization = () => {
 	const authFormSchema = yup.object().shape({
@@ -52,18 +50,17 @@ export const Authorization = () => {
 	const dispatch = useDispatch();
 
 	const onSubmit = ({ login, password }) => {
-		server.authorize(login, password).then(({ error, res }) => {
-			if (error) {
-				setServerError(`Ошибка запроса. ${error}`);
-				return;
-			}
+		request('/api/auth/login', 'POST', { login, password }).then(
+			({ error, user }) => {
+				if (error) {
+					setServerError(`Ошибка запроса. ${error}`);
+					return;
+				}
 
-			// создаём сессию и получаем хэш
-			const sessionHash = sessions.create(res); // res содержит объект пользователя с roleId
-			dispatch(setUser({ ...res, session: sessionHash }));
-
-			saveUserToStorage({ ...res, session: sessionHash });
-		});
+				dispatch(setUser(user));
+				saveUserToStorage(user);
+			},
+		);
 	};
 
 	const formError = errors?.login?.message || errors?.password?.message;

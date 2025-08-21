@@ -28,12 +28,12 @@ router.use(authenticated);
 
 router.post("/", hasRole([ROLES.ADMIN]), async (req, res) => {
   const newItem = await addItem(req.body);
-  res.send({ data: newItem });
+  res.send({ data: mapItem(newItem) });
 });
 
 router.patch("/:id", hasRole([ROLES.ADMIN]), async (req, res) => {
   const updatedItem = await editItem(req.params.id, req.body);
-  res.send({ data: updatedItem });
+  res.send({ data: mapItem(updatedItem) });
 });
 
 router.delete("/:id", hasRole([ROLES.ADMIN]), async (req, res) => {

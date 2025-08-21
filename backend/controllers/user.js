@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
-const Cart = require("../models/Cart");
 const { generate } = require("../helpers/token");
 
 // register
@@ -8,24 +7,13 @@ async function register(login, password) {
   if (!password) {
     throw new Error("Password is required");
   }
+
   const passwordHash = await bcrypt.hash(password, 10);
 
-  // создаём пользователя без cart_id сначала
   const user = await User.create({
     login,
     password: passwordHash,
   });
-
-  // создаём пустую корзину для пользователя
-  const cart = await Cart.create({
-    user_id: user._id,
-    items: [],
-    total_price: 0,
-  });
-
-  // связываем корзину с пользователем
-  user.cart_id = cart._id;
-  await user.save();
 
   const token = generate({ id: user._id });
 

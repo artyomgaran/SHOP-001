@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useSelector, useDispatch } from 'react-redux';
-import { selectCategories } from '../../../../../selectors';
-import { server } from '../../../../../bff';
-import { selectUserSession } from '../../../../../selectors';
+import { useDispatch } from 'react-redux';
+
+import { deleteItem } from '../../../../../action';
+import { request } from '../../../../../utils';
 
 import styles from '../../../admin-panel.module.css';
-import { deleteItem } from '../../../../../action';
+
 export const ItemContainer = ({
 	id,
 	name,
@@ -16,26 +16,19 @@ export const ItemContainer = ({
 	print,
 	quantity,
 	price,
-	categoryId,
+	category,
 	onEdit,
 }) => {
-	const categories = useSelector(selectCategories);
-
-	const category = categories.find((cat) => cat.id === categoryId);
-	const categoryName = category ? category.name : 'Неизвестно';
-
-	const userSession = useSelector(selectUserSession);
-
 	const dispatch = useDispatch();
 
-	const onItemDelete = (itemId) => {
-		server.removeItem(itemId, userSession).then(({ error }) => {
+	const onItemDelete = (id) => {
+		request(`/api/items/${id}`, 'DELETE').then(({ error }) => {
 			if (error) {
 				alert(`Ошибка запроса. ${error}`);
 				return;
 			}
 
-			dispatch(deleteItem(itemId));
+			dispatch(deleteItem(id));
 
 			alert('Товар успешно удален');
 		});
@@ -45,7 +38,7 @@ export const ItemContainer = ({
 		<div className={styles.itemRow}>
 			<span> {id} </span>
 			<span> {name} </span>
-			<span> {categoryName} </span>
+			<span> {category} </span>
 			<span> {price} RUB </span>
 			<span> {quantity} </span>
 			<span>
@@ -69,7 +62,7 @@ export const ItemContainer = ({
 								print,
 								quantity,
 								price,
-								categoryId,
+								category,
 							})
 						}
 					>

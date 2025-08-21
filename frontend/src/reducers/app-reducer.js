@@ -10,10 +10,8 @@ const initialAppState = {
 export const appReducer = (state = initialAppState, action) => {
 	switch (action.type) {
 		case ACTION_TYPE.LOGOUT:
-			return {
-				...state,
-				wasLogout: !state.wasLogout,
-			};
+			return { ...initialAppState, wasLogout: true };
+
 		case ACTION_TYPE.SET_SELECTED_CATEGORY:
 			return {
 				...state,

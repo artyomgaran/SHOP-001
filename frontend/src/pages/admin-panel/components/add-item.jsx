@@ -2,11 +2,11 @@
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addItem, editItem } from '../../../action';
-import { server } from '../../../bff';
-import { selectUserSession } from '../../../selectors';
 import { useEffect } from 'react';
+import { request } from '../../../utils';
+import { mapItemFormData } from '../../../helpers';
 
 import styles from '../admin-panel.module.css';
 
@@ -17,7 +17,8 @@ export const AddItem = ({
 	onCollapse,
 	editableItem,
 }) => {
-	// Если не передали категории, то это ошибка
+	const dispatch = useDispatch();
+
 	const addItemSchema = yup.object().shape({
 		name: yup.string().required('Введите название'),
 		imgUrl: yup.string().url('Неверный URL').required('Укажите адрес картинки'),
@@ -61,60 +62,48 @@ export const AddItem = ({
 		}
 	}, [editableItem, setValue]);
 
-	const dispatch = useDispatch();
-
-	const userSession = useSelector(selectUserSession);
-
 	const handleBack = () => {
 		reset(); // очищаем форму
 		onCollapse(); // сворачиваем форму и сбрасываем editableItem
 	};
 
-	const onSubmit = (formData) => {
-		const preparedData = {
-			...formData,
-			sizes: formData.sizes.split(',').map((s) => s.trim()), // строка -> массив
-		};
+	const onSubmit = async (formData) => {
+		const preparedData = mapItemFormData(formData);
+		try {
+			let response;
 
-		if (editableItem) {
-			// РЕДАКТИРОВАНИЕ
-			server
-				.editItem(editableItem.id, preparedData, userSession)
-				.then(({ error, res }) => {
-					if (error) {
-						alert(`Ошибка запроса. ${error}`);
-						return;
-					}
+			if (editableItem) {
+				// Редактирование
+				response = await request(
+					`/api/items/${editableItem.id}`,
+					'PATCH',
+					preparedData,
+				);
+			} else {
+				// Добавление
+				response = await request('/api/items/', 'POST', preparedData);
+			}
 
-					const normalized = {
-						...res,
-						imgUrl: res.img_url,
-						categoryId: res.category_id,
-					};
+			const { error, data } = response;
+			const result = data;
 
-					dispatch(editItem(normalized));
-					alert('Товар успешно изменён');
-					onCollapse();
-					reset();
-				});
-		} else {
-			// ДОБАВЛЕНИЕ
-			server.createItem(preparedData, userSession).then(({ error, res }) => {
-				if (error) {
-					alert(`Ошибка запроса. ${error}`);
-					return;
-				}
+			if (error) {
+				alert(`Ошибка запроса: ${error}`);
+				return;
+			}
 
-				const normalized = {
-					...res,
-					imgUrl: res.img_url,
-					categoryId: res.category_id,
-				};
-
-				dispatch(addItem(normalized));
+			// Диспатчим в редакс
+			if (editableItem) {
+				dispatch(editItem(result));
+				alert('Товар успешно изменён');
+			} else {
+				dispatch(addItem(result));
 				alert('Товар успешно добавлен');
-				reset();
-			});
+			}
+			reset();
+			onCollapse();
+		} catch (err) {
+			alert(`Ошибка сети: ${err.message}`);
 		}
 	};
 
@@ -124,7 +113,9 @@ export const AddItem = ({
 			onClick={!isExpanded ? onExpand : undefined}
 		>
 			<form className={styles.addItemForm} onSubmit={handleSubmit(onSubmit)}>
-				<h2 className={styles.h2}>Добавление товара</h2>
+				<h2 className={styles.h2}>
+					{editableItem ? 'Изменение товара' : 'Добавление товара'}
+				</h2>
 
 				<input
 					className={styles.inputAdd}
@@ -212,9 +203,9 @@ export const AddItem = ({
 					className={styles.select}
 				>
 					<option value="">Выберите категорию</option>
-					{categories.map(({ id, name }) => (
-						<option key={id} value={id}>
-							{name}
+					{categories.map((category) => (
+						<option key={category.id} value={category.id}>
+							{category.name}
 						</option>
 					))}
 				</select>
